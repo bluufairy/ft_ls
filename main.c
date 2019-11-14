@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 05:14:49 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/07 21:06:25 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/08 09:17:03 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,17 +64,14 @@ ls_data parsein(ls_data d, char **av, int ac)
 	int i2;
 	ls_data data;
 
-	i = 1;
+	i = 0;
 	i2 = 0;
 	data = d;
-	while (i < ac)
-	{
+	while (++i < ac)
 		if (av[i][0] == '-' && av[i][1])
 			data = add_flags(data, av[i]);
 		else
 			break ;
-		i++;
-	}
 	if (i < ac)
 	{
 		free(data.path);
@@ -90,6 +87,7 @@ ls_data parsein(ls_data d, char **av, int ac)
 	return data;
 }
 
+#include <stdio.h>
 int main(int ac, char **av)
 {
 	ls_data data;
@@ -105,13 +103,11 @@ int main(int ac, char **av)
 		write(1, &data.valid, 1);
 		write(1, "\nusage: ls [-alRrt] [file ...]", 30);
 	}
-	ls_out(data);
-	return (0);
-}
+//	ls_out(data);
 
-int scratch(){
-	//printf("\nvalid: %s\nl_flag: %d\nR_flag: %d\na_flag: %d\nr_flag: %d\nt_flag: %d\npaths: \n", &data.valid, data.l_flag, data.R_flag, data.a_flag, data.r_flag, data.t_flag);
-	//for (int i = 0; data.path[i] != NULL; i++)
-	//	printf("%s\n", data.path[i]);
+
+	printf("\nvalid: %s\nl_flag: %d\nR_flag: %d\na_flag: %d\nr_flag: %d\nt_flag: %d\npaths: \n", &data.valid, data.l_flag, data.R_flag, data.a_flag, data.r_flag, data.t_flag);
+	for (int i = 0; data.path[i] != NULL; i++)
+		printf("%s\n", data.path[i]);
 	return 0;
 }

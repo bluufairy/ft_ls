@@ -6,13 +6,29 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 03:29:46 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/08 04:00:18 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/08 11:02:31 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int	list_length(**t_list items)
+int			is_dir(struct dirent item)
+{
+	struct stat	info;
+	char		*path;
+	
+	path = ft_strjoin("./", item.d_name);
+	if (stat(path, extra))
+		exit(0);
+	if ()//check if dir
+		res = 1;
+	else
+		res = 0;
+	free(path);
+	return (res);
+}
+
+int			list_length(t_list **items)
 {
 	int		count;
 	t_list	*cur;
@@ -32,11 +48,11 @@ char		**reg_trans(**t_list items)
 {
 	int		l;
 	char	**res;
-	t_list	cur;
+	t_list	*cur;
 	int		i;
 
 	l = list_length(items);
-	res = (char**)malloc(sizeof(*char) + 1);
+	res = (char **)malloc(sizeof(char *) + 1);
 	res[l] = NULL;
 	i = 0;
 	while(cur)
