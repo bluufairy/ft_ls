@@ -6,9 +6,11 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 03:05:54 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/08 03:23:41 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/14 01:10:49 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "ft_ls.h"
 
 static void	del(t_list *item, t_list *prev)
 {
@@ -16,27 +18,27 @@ static void	del(t_list *item, t_list *prev)
 		prev->next = item->next;
 	else if (prev && !item->next)
 		prev->next = NULL;
-	item->data = NULL;
-	item->content_size = NULL;
+	item->content = NULL;
+	item->content_size = 0;
 	item->next = NULL;
 	free(item);
 }
 
 void		remove_hidden(t_list **items)
 {
-	t_list	cur;
-	t_list	nxt;
-	t_list	prev;
+	t_list	*cur;
+	t_list	*nxt;
+	t_list	*prev;
 
 	cur = *items;
 	prev = NULL;
 	if(!cur)
 		return ;
-	nxt = cur->next;
 	while(cur)
 	{
-		if (cur->data->d_name[0] == '.')
+		net = cur->next;
+		if (((struct dirent *)(cur->content))->d_name[0] == '.')
 			del(cur, prev);
-		cur = cur->next;
+		cur = nxt;
 	}
 }

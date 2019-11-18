@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 05:14:49 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/08 09:17:03 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/14 03:43:26 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,12 @@ int main(int ac, char **av)
 		write(1, &data.valid, 1);
 		write(1, "\nusage: ls [-alRrt] [file ...]", 30);
 	}
-//	ls_out(data);
-
-
+	ls_out(data);
+	return 0;
+}
+/*
 	printf("\nvalid: %s\nl_flag: %d\nR_flag: %d\na_flag: %d\nr_flag: %d\nt_flag: %d\npaths: \n", &data.valid, data.l_flag, data.R_flag, data.a_flag, data.r_flag, data.t_flag);
 	for (int i = 0; data.path[i] != NULL; i++)
 		printf("%s\n", data.path[i]);
 	return 0;
-}
+}*/

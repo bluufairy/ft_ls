@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 03:29:16 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/13 23:13:24 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/14 01:22:38 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char		**l_trans(t_list **items)
 	{
 		res[i] = makestr(cur->content);
 		old = res[i];
-		res[i] = ft_strjoin(res[i], cur->content.d_name);
+		res[i] = ft_strjoin(res[i], ((struct dirent *)cur->content)->d_name);
 		free(old);
 		i++;
 		cur = cur->next;
