@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 02:58:05 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/13 22:41:28 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/18 07:33:49 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	rev_list(t_list **items)
 	t_list	*cur;
 	t_list	*nxt;
 	t_list	*prev;
+	t_list	*nxt2;
 
 	cur = *items;
 	prev = NULL;
@@ -26,9 +27,11 @@ void	rev_list(t_list **items)
 	while (nxt)
 	{
 		cur->next = prev;
+        nxt2 = nxt->next;
 		nxt->next = cur;
 		prev = cur;
 		cur = nxt;
-		nxt = nxt->next;
+		nxt = nxt2;
 	}
+	*items = cur;
 }

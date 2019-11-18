@@ -6,11 +6,11 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 01:33:37 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 02:13:25 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/18 08:12:36 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include ft_ls.h
+#include "ft_ls.h"
 
 static int	comp_alpha(t_list *a, t_list *b)
 {
@@ -31,19 +31,19 @@ static int	comp_alpha(t_list *a, t_list *b)
 		return 0;
 }
 
-static void		split(t_list *ref, t_list *a, t_list *b, int l)
+static void		split(t_list *ref, t_list **a, t_list **b, int l)
 {
 	int 	i;
 
 	i = 0;
-	a = ref;
+	*a = ref;
 	while (i < l)
 	{
-		a = a->next;
+		*a = (*a)->next;
 		i++;
 	}
-	b = a->next;
-	a->next = NULL;
+	*b = (*a)->next;
+	(*a)->next = NULL;
 }
 
 static t_list	*merge(t_list *a, t_list *b)
@@ -68,6 +68,21 @@ static t_list	*merge(t_list *a, t_list *b)
 	return (res);
 }
 
+static int		merge_len(t_list *group)
+{
+	int		count;
+	t_list	*cur;
+
+	count = 0;
+	cur = group;
+	while (cur)
+	{
+		count++;
+		cur = cur->next;
+	}
+	return (count);
+}
+
 void			 merge_sort(t_list **start)
 {
 	t_list	*ref;
@@ -76,10 +91,12 @@ void			 merge_sort(t_list **start)
 	int		len_ref;
 
 	ref = *start;
-	if (!(ref->next) || !(ref))
+	if (!(ref))
 		return ;
-	len_ref = list_length(start) / 2;
-	split(ref, a, b, len_ref);
+	if (!(ref->next))
+		return ;
+	len_ref = merge_len(ref) / 2;
+	split(ref, &a, &b, len_ref);
 	merge_sort(&a);
 	merge_sort(&b);
 	ref = merge(a, b);

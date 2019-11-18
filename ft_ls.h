@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 03:14:42 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/13 22:52:09 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/18 08:08:58 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <grp.h>
 #include <pwd.h>
+#include <time.h>
 #include <sys/stat.h>
 
 typedef struct	flags
@@ -31,7 +32,10 @@ typedef struct	flags
 	char	**path;
 }				ls_data;
 
+void	merge_sort(t_list **items);
 void	ls_out(ls_data dat);
+void	alpha_sort(t_list **items);
+char	**l_trans(t_list **items);
 void	time_sort(t_list **items);
 void	rev_list(t_list **items);
 void	remove_hidden(t_list **items);
