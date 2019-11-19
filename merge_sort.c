@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 01:33:37 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 08:12:36 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/18 19:57:22 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_list	*merge(t_list *a, t_list *b)
 		return (b);
 	if (!b)
 		return (a);
-	if (!comp_alpha(a, b))
+	if (comp_alpha(a, b))
 	{
 		res = a;
 		res->next = merge(a->next, b);

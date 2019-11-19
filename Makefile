@@ -6,7 +6,7 @@
 #    By: cpierce <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/18 08:49:56 by cpierce           #+#    #+#              #
-#    Updated: 2019/11/18 08:59:59 by cpierce          ###   ########.fr        #
+#    Updated: 2019/11/18 09:03:41 by cpierce          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,10 @@ $(NAME):
 g:
 	@gcc -c -g $(SRCS) libft/libft.a
 	@gcc -g main.c $(OBJS) libft/libft.a
+
+sanitize:
+	@gcc -c -g -fsanitize=address $(SRCS) libft/libft.a
+	@gcc -g -fsanitize=address main.c $(OBJS) libft/libft.a
 
 clean:
 	@/bin/rm -f $(OBJS)
