@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 03:05:54 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 16:56:20 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/20 02:51:51 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,8 @@ void		remove_hidden(t_list **items)
 	{
 		nxt = cur->next;
 		if (((struct dirent *)(cur->content))->d_name[0] == '.')
-		{
 			del(&prev, &cur);
-			
-			/*if (prev && cur->next)
-				prev->next = cur->next;
-			if (prev && !(cur->next))
-				prev->next = NULL;
-			free(cur->content);
-			cur->content = NULL;
-			cur->content_size = 0;
-			free(cur);	*/
-		}
+
 		else
 		{
 			if (first)

@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 21:06:12 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 08:09:09 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/20 04:02:30 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_items(t_list **items, ls_data *data)
 	}
 	
 }
-
+#include <stdio.h>
 void	norm_out(ls_data *data)
 {
 	int				i;
@@ -53,11 +53,22 @@ void	norm_out(ls_data *data)
 		cur_dir = opendir(data->path[i]);
 		while((add = readdir(cur_dir)))
 		{
+			//have it skip over items beginning with a "." if the a flag is not set
 			cur = ft_lstnew(add, sizeof(struct dirent));
 			ft_lstadd(&items, cur);
 		}
-		merge_sort(&items);
 		print_items(&items, data);
+		write(1, "\n\n\n", 3);
+		merge_sort(&items, comp_alpha);
+		print_items(&items, data);
+		
+		/*t_list *tmp = items;
+		while (tmp)
+		{
+			printf("%s\n", ((struct dirent *)(tmp->content))->d_name);
+			tmp = tmp->next;
+		}*/
+		
 		closedir(cur_dir);
 		i++;
 	}

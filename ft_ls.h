@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 03:14:42 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 08:08:58 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/18 20:29:48 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef struct	flags
 	char	**path;
 }				ls_data;
 
-void	merge_sort(t_list **items);
+void	merge_sort(t_list **items, int (*compare)(t_list *, t_list *));
+int		comp_alpha(t_list *a, t_list *b);
 void	ls_out(ls_data dat);
 void	alpha_sort(t_list **items);
 char	**l_trans(t_list **items);

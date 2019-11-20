@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   merge_sort.c                                       :+:      :+:    :+:   */
+/*   merge_sort2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 01:33:37 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 19:57:22 by cpierce          ###   ########.fr       */
+/*   Created: 2019/11/20 01:28:59 by cpierce           #+#    #+#             */
+/*   Updated: 2019/11/20 04:58:05 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+#include <stdio.h>
 
-static int	comp_alpha(t_list *a, t_list *b)
+
+int				comp_alpha(t_list *a, t_list *b)
 {
 	char	*a_name;
 	char	*b_name;
@@ -23,82 +25,100 @@ static int	comp_alpha(t_list *a, t_list *b)
 	i = 0;
 	a_name = ((struct dirent *)(a->content))->d_name;
 	b_name = ((struct dirent *)(b->content))->d_name;
+	if (ft_strcmp(a_name, b_name) < 0)
+	{
+	//	printf("moving %s above %s\n", a_name, b_name);
+		return 1;
+	}
+	else
+	{
+	//	printf("not swapping %s and %s\n", a_name, b_name);
+		return 0;
+	}
+	/*
 	while (a_name[i] == b_name[i] && a_name[i] && b_name[i])
 		i++;
 	if (b_name[i] > a_name[i])
 		return 1;
 	else
 		return 0;
+	*/
 }
 
-static void		split(t_list *ref, t_list **a, t_list **b, int l)
+static void	split(t_list **head, t_list **left, t_list **right, int mid_l)
 {
-	int 	i;
+	/*
+	int			i;
 
-	i = 0;
-	*a = ref;
-	while (i < l)
+	*left = *head;
+	while (*left && i < mid_l)
 	{
-		*a = (*a)->next;
+		*left = (*left)->next;
 		i++;
 	}
-	*b = (*a)->next;
-	(*a)->next = NULL;
+	if (!*left)
+		return ;
+	*right = (*left)->next;
+	(*left)->next = NULL;
+	*left = *head;
+	*/
+	t_list *fast = (*head)->next;
+	t_list *slow = *head;
+	
+	while (fast)
+	{
+		fast = fast->next;
+		if (fast)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+	}
+	*left = *head;
+	*right = slow->next;
+	slow->next = NULL;
 }
 
-static t_list	*merge(t_list *a, t_list *b)
+t_list		*merge(t_list *left, t_list *right, int (*comp)(t_list *, t_list *))
 {
-	t_list	*res;
-
+	t_list		*res;
+	
+	if (left == NULL)
+		return right;
+	if (right == NULL)
+		return left;
 	res = NULL;
-	if (!a)
-		return (b);
-	if (!b)
-		return (a);
-	if (comp_alpha(a, b))
+	//printf("yo\n");
+	if (comp(left, right))
 	{
-		res = a;
-		res->next = merge(a->next, b);
+		res = left;
+		res->next = merge(left->next, right, comp);
 	}
 	else
 	{
-		res = b;
-		res->next = merge(a, b->next);
+		res = right;
+		res->next = merge(left, right->next, comp);
 	}
 	return (res);
 }
 
-static int		merge_len(t_list *group)
+void		merge_sort(t_list **items, int (*compare)(t_list *, t_list *))
 {
-	int		count;
-	t_list	*cur;
+	t_list		*head;
+	t_list		*left;
+	t_list		*right;
+	int			mid_l;
 
-	count = 0;
-	cur = group;
-	while (cur)
-	{
-		count++;
-		cur = cur->next;
-	}
-	return (count);
-}
-
-void			 merge_sort(t_list **start)
-{
-	t_list	*ref;
-	t_list	*a;
-	t_list	*b;
-	int		len_ref;
-
-	ref = *start;
-	if (!(ref))
+	if (!*items || !(*items)->next)
 		return ;
-	if (!(ref->next))
-		return ;
-	len_ref = merge_len(ref) / 2;
-	split(ref, &a, &b, len_ref);
-	merge_sort(&a);
-	merge_sort(&b);
-	ref = merge(a, b);
-	start = &ref;
+	left = NULL;
+	right = NULL;
+	head = *items;
+	mid_l = 0;//(list_length(&head) / 2) + (list_length(&head) % 2);
+	//printf("midl: %d\n", mid_l);
+	split(&head, &left, &right, mid_l);
+	merge_sort(&left, compare);
+	merge_sort(&right, compare);
+	head = merge(left, right, compare);
+	*items = head;
 }

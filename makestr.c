@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 03:29:46 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 08:50:24 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/18 20:36:14 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			list_length(t_list **items)
 	}
 	return count;
 }
-
+/*
 static int	comp_alpha(t_list *a, t_list *b)
 {
 	char	*a_name;
@@ -61,7 +61,7 @@ static int	comp_alpha(t_list *a, t_list *b)
 	else
 		return 0;
 }
-
+*/
 void		alpha_sort(t_list **items)
 {
 	t_list	*cur;
