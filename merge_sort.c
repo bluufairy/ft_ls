@@ -6,7 +6,7 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 01:28:59 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/20 04:58:05 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/20 06:47:00 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,27 @@
 #include <stdio.h>
 
 
-int				comp_alpha(t_list *a, t_list *b)
+int				comp_alpha(t_list *a, t_list *b, char *path)
 {
 	char	*a_name;
 	char	*b_name;
 	int		res;
 	int		i;
-
+	
+	if (path)
+		path = path;
 	res = 0;
 	i = 0;
 	a_name = ((struct dirent *)(a->content))->d_name;
 	b_name = ((struct dirent *)(b->content))->d_name;
 	if (ft_strcmp(a_name, b_name) < 0)
-	{
-	//	printf("moving %s above %s\n", a_name, b_name);
-		return 1;
-	}
-	else
-	{
-	//	printf("not swapping %s and %s\n", a_name, b_name);
-		return 0;
-	}
-	/*
-	while (a_name[i] == b_name[i] && a_name[i] && b_name[i])
-		i++;
-	if (b_name[i] > a_name[i])
 		return 1;
 	else
 		return 0;
-	*/
 }
 
-static void	split(t_list **head, t_list **left, t_list **right, int mid_l)
+static void	split(t_list **head, t_list **left, t_list **right)
 {
-	/*
-	int			i;
-
-	*left = *head;
-	while (*left && i < mid_l)
-	{
-		*left = (*left)->next;
-		i++;
-	}
-	if (!*left)
-		return ;
-	*right = (*left)->next;
-	(*left)->next = NULL;
-	*left = *head;
-	*/
 	t_list *fast = (*head)->next;
 	t_list *slow = *head;
 	
@@ -79,7 +52,8 @@ static void	split(t_list **head, t_list **left, t_list **right, int mid_l)
 	slow->next = NULL;
 }
 
-t_list		*merge(t_list *left, t_list *right, int (*comp)(t_list *, t_list *))
+t_list		*merge(t_list *left, t_list *right,
+				int (*comp)(t_list *, t_list *, char *), int rev, char *path)
 {
 	t_list		*res;
 	
@@ -88,37 +62,34 @@ t_list		*merge(t_list *left, t_list *right, int (*comp)(t_list *, t_list *))
 	if (right == NULL)
 		return left;
 	res = NULL;
-	//printf("yo\n");
-	if (comp(left, right))
+	if (rev ? comp(right, left, path) : comp(left, right, path))
 	{
 		res = left;
-		res->next = merge(left->next, right, comp);
+		res->next = merge(left->next, right, comp, rev, path);
 	}
 	else
 	{
 		res = right;
-		res->next = merge(left, right->next, comp);
+		res->next = merge(left, right->next, comp, rev, path);
 	}
 	return (res);
 }
 
-void		merge_sort(t_list **items, int (*compare)(t_list *, t_list *))
+void		merge_sort(t_list **items,int (*compare)(t_list *, t_list *, char *),
+				int rev, char *path)
 {
 	t_list		*head;
 	t_list		*left;
 	t_list		*right;
-	int			mid_l;
 
 	if (!*items || !(*items)->next)
 		return ;
 	left = NULL;
 	right = NULL;
 	head = *items;
-	mid_l = 0;//(list_length(&head) / 2) + (list_length(&head) % 2);
-	//printf("midl: %d\n", mid_l);
-	split(&head, &left, &right, mid_l);
-	merge_sort(&left, compare);
-	merge_sort(&right, compare);
-	head = merge(left, right, compare);
+	split(&head, &left, &right);
+	merge_sort(&left, compare, rev, path);
+	merge_sort(&right, compare, rev, path);
+	head = merge(left, right, compare, rev, path);
 	*items = head;
 }

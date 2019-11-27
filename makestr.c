@@ -6,25 +6,38 @@
 /*   By: cpierce <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 03:29:46 by cpierce           #+#    #+#             */
-/*   Updated: 2019/11/18 20:36:14 by cpierce          ###   ########.fr       */
+/*   Updated: 2019/11/21 16:14:25 by cpierce          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int			is_dir(struct dirent item)
+char		*str_join_free3(char *a, char *b, char *c)
 {
-	struct stat	*info;
+	char		*res;
+	char		*tmp;
+
+	tmp = ft_strjoin(a, b);
+	res = ft_strjoin(tmp, c);
+	free(tmp);
+	return (res);
+}
+
+int			is_dir(struct dirent item, char *p)
+{
+	struct stat	info;
 	char		*path;
-	int			res;
+	int			res, x;
 	
 	res = 0;
-	path = ft_strjoin("./", item.d_name);
-	if (stat(path, info))
+	//path = ft_strjoin("./", item.d_name);
+	//path = item.d_name;
+	path = str_join_free3(p, "/", item.d_name);
+	if ((x = stat(path, &info)))
 		exit(0);
-	if (S_ISDIR(info->st_mode))
+	if (S_ISDIR(info.st_mode))
 		res = 1;
-	free(path);
+	//free(path);
 	return (res);
 }
 
@@ -61,7 +74,7 @@ static int	comp_alpha(t_list *a, t_list *b)
 	else
 		return 0;
 }
-*/
+
 void		alpha_sort(t_list **items)
 {
 	t_list	*cur;
@@ -94,7 +107,7 @@ void		alpha_sort(t_list **items)
 		cur = cur->next;
 	}
 }
-
+*/
 char		**reg_trans(t_list **items)
 {
 	int		l;
